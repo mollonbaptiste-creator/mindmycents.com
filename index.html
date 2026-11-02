@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="L'actu des marchés financiers expliquée simplement, chaque matin, par Baptiste Mollon.">
+<title>MindMyCents</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: masthead + ticker strip, then article column with a narrow "semaine" rail; archive and about below. */
+:root{
+  --bg:#f3f5f1; --surface:#ffffff; --ink:#14231d; --muted:#5b6b63; --line:#d8dfd9;
+  --accent:#0f7a55; --accent-soft:#dcefe5; --up:#0f7a55; --down:#c2413b; --mark:#ffe58a;
+  --f-display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1714; --surface:#16211c; --ink:#e7eee9; --muted:#9aaba2; --line:#2a3832;
+  --accent:#4cc994; --accent-soft:#1d3a2e; --up:#4cc994; --down:#f07b73; --mark:#6b5a12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1714; --surface:#16211c; --ink:#e7eee9; --muted:#9aaba2; --line:#2a3832;
+  --accent:#4cc994; --accent-soft:#1d3a2e; --up:#4cc994; --down:#f07b73; --mark:#6b5a12; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.65}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+header.mast{border-bottom:1px solid var(--line)}
+header.mast .wrap{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;padding-block:22px 16px}
+.logo{font-family:var(--f-display);font-weight:800;font-size:clamp(28px,5vw,40px);letter-spacing:-.02em;margin:0;line-height:1}
+.logo span{color:var(--accent)}
+.tag{font-family:var(--f-display);color:var(--muted);font-size:15px;margin:0}
+
+.ticker{background:var(--surface);border-bottom:1px solid var(--line)}
+.ticker .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;padding-block:0}
+.tk{padding:12px 14px 12px 0;border-right:1px solid var(--line);font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums}
+.tk:last-child{border-right:0}
+.tk b{display:block;font-family:var(--f-display);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.tk .up{color:var(--up)} .tk .down{color:var(--down)}
+.tk small{display:block;color:var(--muted);font-size:11px}
+
+main .wrap{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:48px;padding-block:40px}
+@media (max-width:860px){main .wrap{grid-template-columns:minmax(0,1fr);gap:32px}}
+
+article{min-width:0;max-width:68ch}
+.kicker{font-family:var(--f-display);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(30px,5.2vw,48px);line-height:1.08;letter-spacing:-.025em;margin:0 0 14px;text-wrap:balance}
+.dek{font-size:20px;color:var(--muted);margin:0 0 18px;line-height:1.5}
+.byline{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-size:14px;color:var(--muted);padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:26px}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:14px}
+.byline strong{color:var(--ink)}
+article h2{font-family:var(--f-display);font-weight:700;font-size:24px;letter-spacing:-.01em;margin:36px 0 10px;text-wrap:balance}
+article p{margin:0 0 16px}
+mark{background:var(--mark);color:inherit;padding:0 .15em}
+.tldr{background:var(--accent-soft);border-radius:10px;padding:18px 20px;margin:0 0 28px}
+.tldr h3{font-family:var(--f-display);font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px}
+.tldr ul{margin:0;padding-left:20px}
+.tldr li{margin:4px 0}
+.word{border-left:3px solid var(--accent);padding:4px 0 4px 16px;margin:22px 0;font-size:16px}
+.word b{font-family:var(--f-display);display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.disclaimer{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:32px}
+
+aside{min-width:0}
+.rail h3{font-family:var(--f-display);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.cal{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.cal li{display:grid;grid-template-columns:52px 1fr;gap:10px;padding:12px 0;border-top:1px solid var(--line);font-size:15px;line-height:1.45}
+.cal .d{font-family:var(--f-mono);font-size:12px;color:var(--accent);padding-top:2px}
+.rail section+section{margin-top:36px}
+.archive{list-style:none;margin:0;padding:0}
+.archive li{border-top:1px solid var(--line);padding:10px 0}
+.archive a{font-family:var(--f-display);font-weight:500;text-decoration:none;color:var(--ink)}
+.archive time{display:block;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);background:var(--surface)}
+footer .wrap{padding-block:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;font-size:15px;color:var(--muted)}
+footer h4{font-family:var(--f-display);color:var(--ink);margin:0 0 6px;font-size:16px}
+footer p{margin:0}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="logo">Mind<span>My</span>Cents</p>
+    <p class="tag">L'actu des marchés, expliquée sans prise de tête.</p>
+  </div>
+</header>
+
+<div class="ticker" aria-label="Chiffres du jour">
+  <div class="wrap">
+    <div class="tk"><b>CAC 40</b><span class="up">≈ 8 000 pts ▲ 0,4 %</span><small>lundi, fin de matinée</small></div>
+    <div class="tk"><b>Nasdaq</b><span class="down">▼ 2,9 %</span><small>vendredi, clôture</small></div>
+    <div class="tk"><b>Pétrole WTI</b><span class="down">&lt; 100 $ ▼ 7 %</span><small>lundi</small></div>
+    <div class="tk"><b>Or</b><span class="up">≈ 3 910 $ ▲ 0,3 %</span><small>l'once, lundi</small></div>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <article>
+      <p class="kicker">Le point du lundi 2 novembre 2026</p>
+      <h1>Les marchés soufflent après un vendredi rouge</h1>
+      <p class="dek">La tech a pris une claque, le pétrole a fait le yoyo, et cette semaine est chargée. On fait le tri.</p>
+      <div class="byline"><div class="avatar" aria-hidden="true">BM</div><div>Par <strong>Baptiste Mollon</strong> · 4 min de lecture</div></div>
+
+      <div class="tldr">
+        <h3>En 30 secondes</h3>
+        <ul>
+          <li>Vendredi, les actions tech ont chuté fort. Le Nasdaq a vécu son pire mois depuis mars 2025.</li>
+          <li>Lundi, ça repart : le pétrole baisse grâce à des espoirs de discussions entre les États-Unis et l'Iran.</li>
+          <li>À suivre cette semaine : Apple, les élections américaines, l'inflation en Europe et l'emploi aux US.</li>
+        </ul>
+      </div>
+
+      <h2>Vendredi : la tech dans le rouge</h2>
+      <p>Pour finir octobre, Wall Street a passé une mauvaise journée. Le <strong>Nasdaq</strong>, l'indice où l'on retrouve surtout les géants de la tech, a perdu près de <mark>3 % en une seule séance</mark>. C'est sa pire journée depuis juin, et sur tout le mois d'octobre il recule d'un peu plus de 5 %.</p>
+      <p>Pourquoi ? D'abord parce que les investisseurs commencent à se demander si les entreprises de l'intelligence artificielle ne sont pas devenues trop chères. Ensuite parce qu'Amazon a publié des résultats un peu en dessous de ce que les analystes attendaient, et son action a baissé.</p>
+
+      <div class="word"><b>Le mot du jour : indice boursier</b>Un indice, c'est un panier d'actions qui sert de thermomètre. Le CAC 40 regroupe 40 grandes entreprises françaises, le Nasdaq surtout de la tech américaine. Quand on dit « le CAC prend 1 % », c'est la moyenne du panier qui monte.</div>
+
+      <h2>Lundi : le pétrole fait redescendre la pression</h2>
+      <p>Ces dernières semaines, le pétrole était monté très haut à cause du conflit au Moyen-Orient. Ce lundi, Washington et Téhéran ont laissé entendre qu'ils étaient prêts à discuter, et le prix du baril a chuté de plus de 7 %. Le pétrole américain repasse <mark>sous les 100 dollars</mark>.</p>
+      <p>Pourquoi ça fait plaisir aux marchés ? Le pétrole est partout : dans l'essence, le transport des marchandises, le chauffage. Quand il baisse, les prix en général montent moins vite. Et moins d'inflation, ça veut souvent dire des banques centrales moins tentées de monter leurs taux.</p>
+      <p>Résultat, les Bourses repartent. À Paris, le CAC 40 gagne environ 0,4 % et repasse un peu au-dessus des 8 000 points, aidé aussi par de bons chiffres sur l'industrie européenne. Aux États-Unis, les grands indices prennent autour de 1 % en début de séance.</p>
+
+      <h2>Et l'économie française dans tout ça ?</h2>
+      <p>On a eu les chiffres de croissance du troisième trimestre (juillet à septembre). La zone euro a progressé de 0,4 %, l'Allemagne de 0,2 %, mais la France a légèrement reculé, de 0,1 %. Ce n'est pas une catastrophe, mais c'est un signe que l'économie française tourne au ralenti.</p>
+
+      <div class="word"><b>Le mot du jour bis : PIB</b>Le produit intérieur brut, c'est la valeur de tout ce qu'un pays produit. Quand il baisse, ça veut dire que l'activité économique a un peu reculé sur la période.</div>
+
+      <h2>Le gros deal du jour</h2>
+      <p>Dans les puces électroniques, Marvell a annoncé le rachat de Lumentum pour environ 115 milliards de dollars, payé en actions. Les deux font des composants qui servent dans les centres de données de l'IA. Ça montre que malgré la baisse de vendredi, les entreprises continuent de miser très gros sur ce secteur.</p>
+
+      <h2>Ce que je surveille cette semaine</h2>
+      <p>Grosse semaine en vue. Ce soir, <strong>Apple</strong> et Palantir publient leurs résultats, donc on saura si la tech peut rebondir. Mardi, les Américains votent aux <strong>élections de mi-mandat</strong> : selon les paris, les démocrates pourraient reprendre le Congrès, ce qui peut changer la politique économique. Mercredi, on aura l'inflation en Europe. Jeudi, la Banque d'Angleterre pourrait monter ses taux. Et vendredi, le rapport sur l'emploi américain, toujours très suivi.</p>
+      <p>Mon conseil pour suivre tout ça : ne paniquez pas sur une seule journée. Un vendredi rouge suivi d'un lundi vert, c'est le quotidien des marchés.</p>
+
+      <p class="disclaimer">Contenu éducatif, pas un conseil en investissement. Investir comporte un risque de perte en capital. Sources : Option Finance, Bloomberg, TheStreet, Investrade, CaixaBank Research.</p>
+    </article>
+
+    <aside class="rail">
+      <section>
+        <h3>La semaine à suivre</h3>
+        <ul class="cal">
+          <li><span class="d">LUN 2</span><span>Résultats d'Apple et Palantir après la clôture</span></li>
+          <li><span class="d">MAR 3</span><span>Élections de mi-mandat aux États-Unis</span></li>
+          <li><span class="d">MER 4</span><span>Inflation d'octobre en zone euro</span></li>
+          <li><span class="d">JEU 5</span><span>Décision de la Banque d'Angleterre sur les taux</span></li>
+          <li><span class="d">VEN 6</span><span>Rapport sur l'emploi américain</span></li>
+        </ul>
+      </section>
+      <section>
+        <h3>Derniers articles</h3>
+        <ul class="archive">
+          <li><a href="#">Les marchés soufflent après un vendredi rouge</a><time datetime="2026-11-02">2 nov. 2026</time></li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><h4>À propos</h4><p>MindMyCents, c'est le blog de Baptiste Mollon. Chaque matin, l'actu des marchés financiers expliquée simplement, pour comprendre ce qui se passe sans jargon.</p></div>
+    <div><h4>Important</h4><p>Les articles sont informatifs et pédagogiques. Ils ne constituent pas un conseil en investissement personnalisé.</p></div>
+  </div>
+</footer>
+</body>
+</html>
